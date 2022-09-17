@@ -24,6 +24,9 @@ class ViewController: UIViewController {
     var secondOperand = ""
     var result = ""
     var currentOperation: Operation = .unspecified
+    var currentButton: UIButton?
+    
+    let operatorColor = UIColor(red: 254/255, green: 160/255, blue: 10/255, alpha: 1.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +47,9 @@ class ViewController: UIViewController {
             guard let number = sender.title(for: .normal) else { return }
             displayNumber += number
             numberLabel.text = displayNumber
+            if let currentButton = currentButton {
+                setButtonStyle(for: currentButton, textColor: .white, backgroundColor: operatorColor)
+            }
         }
     }
     
@@ -56,18 +62,26 @@ class ViewController: UIViewController {
     
     @IBAction func tapDivideButton(_ sender: UIButton) {
         handleOperation(for: .divide)
+        currentButton = sender
+        setButtonStyle(for: sender, textColor: operatorColor, backgroundColor: .white)
     }
     
     @IBAction func tapMultiplyButton(_ sender: UIButton) {
         handleOperation(for: .multiply)
+        currentButton = sender
+        setButtonStyle(for: sender, textColor: operatorColor, backgroundColor: .white)
     }
     
     @IBAction func tapSubtractButton(_ sender: UIButton) {
         handleOperation(for: .subtract)
+        currentButton = sender
+        setButtonStyle(for: sender, textColor: operatorColor, backgroundColor: .white)
     }
     
     @IBAction func tapAddButton(_ sender: UIButton) {
         handleOperation(for: .add)
+        currentButton = sender
+        setButtonStyle(for: sender, textColor: operatorColor, backgroundColor: .white)
     }
     
     @IBAction func tapEqualButton(_ sender: UIButton) {
@@ -96,7 +110,7 @@ class ViewController: UIViewController {
                 if let doubleResult = Double(result), doubleResult.truncatingRemainder(dividingBy: 1) == 0 {
                     result = "\(Int(doubleResult))"
                 }
-                
+            
                 displayNumber = ""
                 firstOperand = result
                 numberLabel.text = result
@@ -109,5 +123,9 @@ class ViewController: UIViewController {
         }
     }
     
+    func setButtonStyle(for button: UIButton, textColor: UIColor, backgroundColor: UIColor) {
+        button.setTitleColor(textColor, for: .normal)
+        button.backgroundColor = backgroundColor
+    }
 }
 
